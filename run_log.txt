@@ -1,0 +1,243 @@
+C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\zmq\_future.py:718: RuntimeWarning: Proactor event loop does not implement add_reader family of methods required for zmq. Registering an additional selector thread for add_reader support via tornado. Use `asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())` to avoid this warning.
+  self._get_loop()
+[IPKernelApp] WARNING | Kernel is running over TCP without encryption. All communication (including code and outputs) is sent in plain text and is susceptible to eavesdropping. Use IPC transport or launch with kernel manager-provisioned CurveZMQ keys to enable transport encryption.
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_937a57cb08d845b49531379c6a9854db_afef66ae13b4409082f72a0ee480d9fb'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_313bce2cf741461ab78beed143b53abb_c194bfa7b1dd45989da35e57c598cabe'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_22bdc17f849344fcb356f11b4742872f_fd1ceeecdef34a3a9fd8f324a9509745'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_4ac5a029c8b341779eb31f282d7aca16_e007c721b39547f1aa7870316b3dd017'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_cc9f3fdcf80841e3864d70d5181353b0_10a879ab6d544479b913931c71419672'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_c3ab3c0de74f497886f8eb1874dc79de_adfd1adeea0242229f39a8335d1e4e14'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_1bf43b70603540919eca37d5a4749d52_707790f2fc1d4ba38355c76855f9b244'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_2b1de7d29be647788eb69bca2c49657c_5b44d41af9e145f8b59f64b3fd2b99fc'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_48af926331524aed86523023912abdec_21bef787142645a2ae28badc1d26b221'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_004001a9374c45ff83a45d24120b413f_403c8aa7d88849abacab7e548b177290'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0795b08a122746f7a311b2d4e4071de6_e38f46764f164e42bdc37c1b6e759d7a'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_ecd061cff3864a2e80142b8db886fe9c_24a5b04df11844fe8f6067c030e11630'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_3b65ffab89324bd1a3f5a235a070458a_b48bb451322e4796a52da5ed0b653209'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_ffa4b5d6d027458a8ad87a89df5b5848_d9bbf696203e47c3b3163a07bcfb4e18'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_6a40829ed3ac41b5b67668e3f3a13b27_2b4eddfd19e14fb8a4493199e85e3250'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_3054515bdbb84bf88d54247fee659258'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_52f95c4fe6f64e2ea98fc8b8ca3c687c_6c25866bcb2e499da1e553b16d918189'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_c613b0d1dc1d459a92b5f1feef249ceb_620a7f0d7f3a4523a3a4fe657a94806a'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_9cbce525a4a54bef8f62b9f570ac26a9_6e9690e381c444679ae843fd6416d7ed'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_52fe71a04f0e4df6bd121693d6b8fd37_a1f6256ec7604a3a9cc410cf04049067'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_06c4dd65d5614f098fc571df1c967208_df1612d008e044529152e4bece19b9ab'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_9a00bc3caf784a68880954c504842cf8'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_1331e1e9f4f34b1b8f428014ffff910c_1ce96833b684447f94311518446b6da1'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_ba061c3bccf14ff09d405b94d7e1ec33_653a28c7487b4494ae86c8d4fcf2d2f9'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_9ea394de93164744a60357af6aeaf570_e947ca043c1c4267824690f682935062'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_b73c4a6c51034eeea765f26b39668b48_7aba3b2aa3fd40268b12069770b7aea7'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_b8f86daa084c4485b5b0fa42a36350ca_98770a1ed6a64208b8022fa6a74d48bd'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_33fc09fafdba4633b22bf6c03f0691b8_b4746649ffab41e6a359f988333045ec'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_f5507558f5f34c5fbdfce6d88e682c59_514cf6c889ff4e569129e700eea12095'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_a2a6879f603447f5992d1ece38ca68b6_a2f2d667ddea4f28a95403ac53a1cca5'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_ca89537d3b5e45a88537af1d658c6a9b_719d9e51b5a94bbe958c0f9298780f51'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_2ef80b03634b48b7bcde9c88276aac03_e71df444718c480bba78159cd48bbb03'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_f1638378a2104cb4adb95e7eabe851b0'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_931ff93cfcda45bba7e111bdf369e123_a94859f1173a44bcaa5f845586da786a'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_5e39cd216b2c487baf84516038e30ad6'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_202aa25d2aad48cd9d69221a19bbe398_dfecd271f8004e02be9bbc229c6ebd42'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_20c2c47d4dc8433eb278e1556d0feb28'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_2fbbea54d6cc40a3921db955af255844_3342544b43c3439d861fb609fca6cf3f'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_8d7d4593f60043ddb52b4203a39e6022'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_26e1fdb1a74742d1b7f535adcfee6be0_fecef73ebb54421884c6fada7b6b7a79'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_2fface5cd01f48b0a4ae9372f2d6a979'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_f5ef811546754d769f8b5d6dd71eb84c_847c53d2de9346be96732f24a07cc7b3'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_38cd431efd7843dcac6281fdbbded91f'
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\.venv\Lib\site-packages\joblib\externals\loky\backend\resource_tracker.py", line 386, in main
+    del cache[rtype][name]
+        ~~~~~~~~~~~~^^^^^^
+KeyError: 'C:\\Users\\01055844\\AppData\\Local\\Temp\\joblib_memmapping_folder_19288_0a47ac1131194c97a9700bf442bd83ca_cb97db1f8fff4603b41cdc048436a89e'
+Carregando notebook...
+Executando 32 células de código...
+Isso pode levar 10-20 minutos para SVM e RandomForest...
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\run_notebook.py", line 29, in <module>
+    print(f"\n\u2705 Notebook executado com sucesso em {elapsed/60:.1f} minutos!")
+  File "C:\Users\01055844\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2705' in position 2: character maps to <undefined>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\01055844\Documents\ml-trabalho-final\run_notebook.py", line 36, in <module>
+    print(f"\n\u274c Erro na execução: {e}")
+  File "C:\Users\01055844\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u274c' in position 2: character maps to <undefined>

@@ -1,0 +1,20 @@
+# Dataset (arquivo grande, não versionar)
+data/
+*.csv
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+
+# Cache do Kaggle
+~/.cache/kagglehub/
+
+# OS
+.DS_Store
+Thumbs.db
