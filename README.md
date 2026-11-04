@@ -1,270 +1,207 @@
-# Trabalho Final de Machine Learning — Epicurious Dataset
+# Trabalho Final de Aprendizado de Máquina — Epicurious Dataset
 
-**Disciplina:** Machine Learning  
-**Dataset:** [Epicurious – Recipes with Rating and Nutrition](https://www.kaggle.com/datasets/hugodarwood/epirecipes) (Kaggle)  
+**Disciplina:** Aprendizado de Máquina — Prof. Marcelo Guzella (IBMEC)
+**Autor:** Lucas Buccini
+**Dataset:** [Epicurious – Recipes with Rating and Nutrition](https://www.kaggle.com/datasets/hugodarwood/epirecipes) (Kaggle)
 **Notebook principal:** [trabalho_final.ipynb](trabalho_final.ipynb)
 
-> **Contexto.** Este trabalho é o complemento da [atividade anterior](https://github.com/LucasBuccini/ml-atividade),
-> que previu as calorias de receitas com R² ajustado de **0,897** usando Gradient Boosting.
-> Aqui, o mesmo dataset é explorado sob três ângulos: regressão de calorias (ampliando os modelos
-> da atividade), classificação do rating dos usuários, e análise não supervisionada para
-> descoberta de grupos de receitas e sugestões de substituição de dieta.
+> Complemento da [atividade anterior](https://github.com/LucasBuccini/ml-atividade), que previu calorias
+> com R² ajustado de **0,897**. Aqui o mesmo dataset é explorado com **23 técnicas** em três frentes:
+> regressão de calorias, categorização automática do tipo de prato e segmentação
+> nutricional não supervisionada.
 
 ---
 
 ## Sumário
 
 1. [Visão geral](#1-visão-geral)
-2. [O dataset](#2-o-dataset)
-3. [Os três problemas](#3-os-três-problemas)
-4. [Modelos utilizados](#4-modelos-utilizados)
-5. [Resultados obtidos](#5-resultados-obtidos)
-6. [Análise não supervisionada](#6-análise-não-supervisionada)
+2. [Dados e preparação](#2-dados-e-preparação)
+3. [Bloco 1 — Regressão](#3-bloco-1--regressão-de-calorias)
+4. [Bloco 2 — Classificação](#4-bloco-2--classificação-tipo-de-prato)
+5. [Bloco 3 — Não supervisionado](#5-bloco-3--segmentação-nutricional)
+6. [Ética e limitações](#6-ética-e-limitações)
 7. [Como executar](#7-como-executar)
 8. [Estrutura do repositório](#8-estrutura-do-repositório)
-9. [Relação com a atividade anterior](#9-relação-com-a-atividade-anterior)
 
 ---
 
 ## 1. Visão geral
 
-| | |
-|---|---|
-| **Dataset** | Epicurious — 20.052 receitas, 680 colunas brutas |
-| **Após limpeza** | ~14.000 receitas, 335 features (3 macros + 332 tags binárias) |
-| **Problemas** | Regressão (calorias) + Classificação (rating) + Clustering |
-| **Modelos testados** | 18 — cobre ~90% da lista do professor |
-| **Técnicas de lista do professor** | Regressão Linear/Polinomial/Splines/Local/GAMs · Logit/LDA/QDA/NB/KNN · Bagging/RF/Boosting/SVM · K-Means/Hierárquico/GMM/PCA |
+| Bloco | Pergunta | Técnicas | Melhor resultado (teste) |
+|---|---|---|---|
+| 1 — Regressão | Quantas calorias tem a receita? | 10 | Gradient Boosting: R² aj. = 0,897, MAE = 66 kcal |
+| 2 — Classificação | Qual o tipo de prato (6 classes)? | 8 + seleção por consenso | Gradient Boosting: F1-macro = 0,766, acurácia = 0,833 |
+| 3 — Não supervisionado | Quais perfis nutricionais existem? | PCA, K-Means, Hierárquico, GMM, DBSCAN | 7 perfis interpretáveis + recomendador de substituição |
 
 ---
 
-## 2. O dataset
+## 2. Dados e preparação
 
-O arquivo `epi_r.csv` contém receitas do site Epicurious:
+Dois arquivos do mesmo dataset Kaggle:
+- `epi_r.csv` — título, `rating`, `calories`, `protein`, `fat`, `sodium` e 674 tags binárias.
+- `full_format_recipes.json` — ingredientes, passos e data de publicação (nº de ingredientes, nº de passos e ano, usados no Bloco 2).
 
-| Coluna | Descrição |
-|---|---|
-| `title` | Nome da receita |
-| `rating` | Nota dos usuários (0 = sem avaliação; 2,5–5 = notas reais) |
-| `calories` | Calorias totais (kcal) |
-| `protein` | Proteína (g) |
-| `fat` | Gordura (g) |
-| `sodium` | Sódio (mg) |
-| 674 tags | Etiquetas binárias (0/1): ingredientes, dietas, técnicas, ocasiões |
-
-### Pipeline de limpeza
-
-| Etapa | Registros |
+| Etapa de limpeza | Registros |
 |---|---|
 | Dados originais | 20.052 |
 | Remoção de duplicatas | 18.251 |
 | Remoção de nulos (macros + rating) | 14.446 |
-| Remoção de outliers extremos (p99 em calorias) | ~14.096 |
-| **Para classificação:** remoção de rating = 0 | ~11.000–13.000 |
+| Remoção de outliers (p99 de cada variável nutricional) | 14.096 |
+| Bloco 2: receitas com exatamente 1 categoria (modelagem) | 7.704 |
 
-> **Por que remover rating = 0?** No site Epicurious, o valor 0 indica ausência de avaliação
-> (receita sem votos), e não uma nota "ruim". Incluí-las no problema de classificação
-> introduziria ruído estrutural que impossibilita qualquer modelo de aprender.
+- Tags com menos de 50 ocorrências são descartadas (332 mantidas); `low cal` é removida por vazamento do alvo de regressão.
+- Divisão treino/teste 80/20 com `random_state=42` (estratificada no Bloco 2). Escalonamento, seleção de variáveis, hiperparâmetros e limiar usam **somente o treino**.
 
-### Definição de features
+---
 
-| Conjunto | Colunas | Uso |
+## 3. Bloco 1 — Regressão de calorias
+
+Validação cruzada de 5 folds no treino + avaliação no teste. Seleção de variáveis explícita via Lasso
+(`TOP30_FEATURES`, 21/30 coincidem com o Top-30 do Lasso refeito no treino atual).
+
+| Modelo | Variáveis | R² aj. (teste) | MAE (kcal) |
+|---|---|---|---|
+| Regressão Linear | 3 | 0,845 | 95 |
+| Polinomial (grau 2) | 3 | 0,845 | 96 |
+| Splines cúbicas naturais | 3 | 0,844 | 96 |
+| GAM | 3 | 0,852 | 90 |
+| Ridge | 30 | 0,887 | 71 |
+| Lasso (LassoCV) | 335 (246 ≠ 0) | 0,880 | 67 |
+| Árvore de decisão | 30 | 0,819 | 87 |
+| Bagging | 30 | 0,873 | 77 |
+| Random Forest | 30 | 0,882 | 70 |
+| **Gradient Boosting** | **30** | **0,897** | **66** |
+
+---
+
+## 4. Bloco 2 — Classificação (tipo de prato)
+
+### Por que não o rating?
+O rating foi testado em **6 formulações** com o mesmo protocolo (Gradient Boosting, divisão 80/20):
+
+| Formulação | Mede | Resultado |
 |---|---|---|
-| `MACRO_COLS` | `fat`, `protein`, `sodium` | Modelos simples de regressão |
-| `TOP30_FEATURES` | 30 variáveis selecionadas pelo Lasso | Regressão ensemble, K-Means, LDA, QDA, KNN |
-| `ALL_FEATURES` | 335 (macros + 332 tags) | Classificadores que toleram alta dimensão |
+| Regressão da nota | qualidade | R² = 0,04 |
+| 3 classes (≤ 3,75 / 4,375 / 5,0) | qualidade | F1-macro = 0,48 (acaso 0,33) |
+| Bem avaliada (≥ 4,375) | qualidade | ROC-AUC = 0,62 |
+| Mal avaliada (≤ 3,125) | qualidade | ROC-AUC = 0,62 |
+| Nota máxima (= 5,0) | exposição | ROC-AUC = 0,75 (0,72 sem o ano) |
+| Receberá avaliação? | exposição | ROC-AUC = 0,88 (0,84 sem o ano) |
 
----
+A qualidade percebida não é previsível com estes dados; o sinal existente vem do **ano de publicação e da fonte
+editorial** (exposição), porque o dataset não traz o número de avaliações. Também foram descartados: restrições
+alimentares (rótulos inconsistentes) e classificação por texto/TF-IDF (fora do escopo da disciplina; +5 p.p. de F1).
 
-## 3. Os três problemas
+### Problema escolhido
+**39% das receitas não têm categoria** (bebida, sobremesa, acompanhamento, entrada, prato principal, café da manhã)
+e ficam fora dos filtros do site. O classificador sugere a categoria a partir de ingredientes, técnicas e nutrição.
 
-### Problema A — Regressão de Calorias
+| Situação do rótulo | Receitas | Uso |
+|---|---|---|
+| Exatamente 1 categoria | 7.704 | treino/teste (80/20 estratificado) |
+| 2+ categorias | 888 | validação complementar |
+| Sem categoria | 5.504 | aplicação |
 
-- **Target:** `calories` (kcal, variável contínua)
-- **Justificativa:** Calorias têm relação física direta com gordura (9 kcal/g) e proteína (4 kcal/g)
-- **Desafio:** Carboidratos não estão no dataset; as tags funcionam como indicadores indiretos
-- **Métricas:** R² ajustado, MAE, RMSE
-- **Split:** 80% treino / 20% teste, `random_state=42`, 5-fold CV
+**Vazamento:** excluídas as tags que definem a categoria (`dessert`, `drink`...) e as que nomeiam um tipo de prato
+(`cake`, `cocktail`, `salad`, `soup/stew`...; pureza de até 100%).
 
-### Problema B — Classificação de Rating
+### Seleção de variáveis (somente no treino)
+| Etapa | Método | Resultado |
+|---|---|---|
+| Filtro | Variância (tags < 1%) | −115 tags |
+| Filtro | Redundância (\|r\| > 0,90) | nenhum par |
+| Filtro | Informação mútua, k por CV aninhada | k = 160 |
+| Embutido | Lasso multinomial (L1) | 177 não nulas |
+| Embutido | Permutação (Gradient Boosting) | 77 significativas |
+| Wrapper | RFECV | 148 |
+| **Consenso** | **≥ 2 votos** | **175 de 313** (todas as 9 numéricas) |
 
-- **Target:** `rating_class` — rating discretizado em 3 classes por tercis:
-  - Classe 0 (`baixo`): abaixo do 1º tercil
-  - Classe 1 (`médio`): entre 1º e 2º tercil
-  - Classe 2 (`alto`): acima do 2º tercil
-- **Desafio:** Rating tem correlação de Spearman ~0,10 com todas as features — gosto é subjetivo
-- **Métricas:** Accuracy, F1-macro, Confusion Matrix
-- **Baseline aleatório:** 33,3%
-
-### Problema C — Análise Não Supervisionada
-
-- **Objetivo:** Descobrir grupos naturais de receitas por perfil nutricional
-- **Aplicação prática:** Sistema de substituição dietética e de qualidade
-- **Input para clustering:** 24 componentes do PCA (retêm 90% da variância das TOP30_FEATURES)
-
----
-
-## 4. Modelos utilizados
-
-Cobertura: **~18 de 19 técnicas** da lista do professor (~90%).
-
-### Bloco 1 — Regressores (10 modelos)
-
-| # | Modelo | Features | Nota |
-|---|---|---|---|
-| 1 | Regressão Linear | `MACRO_COLS` (3) | Baseline físico |
-| 2 | Regressão Polinomial (grau 2) | `MACRO_COLS` | Termos quadráticos |
-| 3 | Splines Cúbicas Naturais | `MACRO_COLS` | Via `patsy` (`cr()`) |
-| 4 | LOESS (Regressão Local) | `fat` | Apenas visualização motivacional |
-| 5 | GAM | `MACRO_COLS` | Via `pygam.LinearGAM` |
-| 6 | Ridge | `TOP30_FEATURES` | Regularização L2 |
-| 7 | Lasso (LassoCV) | `ALL_FEATURES` (335) | Regularização L1 + seleção |
-| 8 | Árvore + Bagging | `TOP30_FEATURES` | 50 árvores |
-| 9 | Random Forest | `TOP30_FEATURES` | 100 árvores |
-| 10 | Gradient Boosting | `TOP30_FEATURES` | `HistGradientBoosting` |
-
-### Bloco 2 — Classificadores (8 modelos)
-
-| # | Modelo | Features | Nota |
-|---|---|---|---|
-| 11 | Regressão Logística | `ALL_FEATURES` | C=0.1, max_iter=2000 |
-| 12 | LDA | `TOP30_FEATURES` | Alta dim. causa singularidade |
-| 13 | QDA | `TOP30_FEATURES` | reg_param=0.1 |
-| 14 | Naive Bayes (Bernoulli) | `ALL_FEATURES` | Adequado para tags binárias |
-| 15 | KNN (K=15) | `TOP30_FEATURES` | Maldição da dimensão em 335-D |
-| 16 | SVM (RBF) | `ALL_FEATURES` | Subsample estratificado n=5.000 |
-| 17 | Random Forest | `ALL_FEATURES` | 200 árvores, `max_features='sqrt'` |
-| 18 | Gradient Boosting | `ALL_FEATURES` | `HistGradientBoosting` |
-
-### Bloco 3 — Técnicas Não Supervisionadas (4 técnicas)
-
-| # | Técnica | Input | Nota |
-|---|---|---|---|
-| 19 | PCA | `TOP30_FEATURES` | 24 componentes = 90% variância |
-| 20 | K-Means | 24 componentes PCA | Cotovelo + Silhouette |
-| 21 | Clustering Hierárquico | 24 componentes PCA | Ward linkage |
-| 22 | GMM | 24 componentes PCA | Seleção por BIC |
-
----
-
-## 5. Resultados obtidos
-
-> Tabela atualizada após execução completa do notebook.
-
-### Regressão (Calorias)
-
-| Modelo | Features | R² adj. (CV) | R² adj. (Teste) | MAE |
+### Resultados (teste)
+| Modelo | F1-macro (CV) | Acurácia | F1-macro | ROC-AUC (OvR) |
 |---|---|---|---|---|
-| Regressão Linear | 3 | — | 0,845 | 95 kcal |
-| Regressão Polinomial | 3 | — | 0,845 | ~96 kcal |
-| Splines Cúbicas | 3 | — | 0,844 | ~96 kcal |
-| GAM | 3 | — | 0,852 | ~90 kcal |
-| Ridge | 30 | — | 0,887 | ~71 kcal |
-| Lasso (LassoCV) | 335 | — | 0,884 | 67 kcal |
-| Árvore + Bagging | 30 | — | 0,873 | ~77 kcal |
-| Random Forest | 30 | — | 0,882 | ~70 kcal |
-| **Gradient Boosting** | **30** | **0,904 ± 0,01** | **0,897** | **66 kcal** |
+| Baseline (classe majoritária) | 0,080 | 0,317 | 0,080 | 0,500 |
+| Regressão Logística | 0,728 | 0,788 | 0,732 | 0,949 |
+| LDA | 0,735 | 0,799 | 0,722 | 0,941 |
+| QDA | 0,689 | 0,761 | 0,695 | 0,934 |
+| Naive Bayes (Bernoulli) | 0,685 | 0,784 | 0,686 | 0,933 |
+| KNN | 0,632 | 0,746 | 0,639 | 0,883 |
+| SVM (kernel RBF) | 0,744 | 0,830 | 0,751 | 0,956 |
+| Random Forest | 0,736 | 0,818 | 0,744 | 0,946 |
+| **Gradient Boosting** ★ | **0,769** | **0,833** | **0,766** | **0,956** |
 
-> **Conclusão:** Os modelos baseados apenas nos 3 macronutrientes (Linear, Polinomial, Splines, GAM)
-> atingem R² ~0,845–0,852, capturando a relação física direta com calorias. As tags adicionam
-> 4–5 p.p. de R², com Gradient Boosting sendo o modelo campeão.
-
-### Classificação (Rating)
-
-> Baseline aleatório: **33,3%** (3 classes balanceadas por tercis).
-
-| Modelo | Features | Acc. (CV) | Acc. (Teste) | F1-macro |
-|---|---|---|---|---|
-| Regressão Logística | 335 | — | — | — |
-| LDA | 30 | — | — | — |
-| QDA | 30 | — | — | — |
-| Naive Bayes (Bernoulli) | 335 | — | — | — |
-| KNN (K=15) | 30 | — | — | — |
-| SVM (RBF) | 335 | — | — | — |
-| Random Forest | 335 | — | — | — |
-| Gradient Boosting | 335 | — | — | — |
-
-> **Os valores acima serão preenchidos após execução do notebook.**
-> Espera-se acurácia entre 35–45%, pois a correlação de Spearman entre rating e
-> qualquer feature é ~0,10. Este resultado negativo é valioso: confirma que
-> prever satisfação gastronômica requer dados qualitativos (texto, imagens).
+★ Escolhido pelo F1-macro em validação cruzada. Bebida e sobremesa: F1 ≈ 0,96; "entrada" é a classe difícil (0,45),
+confundida com acompanhamento e principal (categorias editorialmente ambíguas). **Classificação com rejeição:**
+com confiança ≥ 0,96, 64% das receitas são categorizadas automaticamente com 94,9% de acerto; o resto vai para revisão.
+Nas receitas sem categoria (menos tags), 37% passam no limiar.
 
 ---
 
-## 6. Análise não supervisionada
+## 5. Bloco 3 — Segmentação nutricional
 
-### PCA
+**Seleção de atributos:** em vez de reutilizar `TOP30_FEATURES` (selecionadas para prever calorias e 90% binárias),
+partimos de 9 candidatas nutricionais e aplicamos critérios explícitos: transformação log (assimetria), uma única
+variável de escala (as quantidades absolutas medem o tamanho da porção: PC1 = 63%), remoção de redundância e de
+combinação linear exata. Variáveis finais: `log_calorias`, `pct_energia_gordura`, `pct_energia_proteina`,
+`log_sodio_por_100kcal`.
 
-- Das 30 variáveis padronizadas, são necessários **24 componentes** para reter 90% da variância
-- Isso indica alta dimensionalidade intrínseca: nenhuma dimensão domina isoladamente
-- PC1 separa receitas calóricas (gordura/proteína alta) das leves
-- PC2 separa sobremesas/bebidas dos pratos principais
-- As 3 classes de rating são **indistinguíveis** no espaço PCA — confirmando que rating não é previsível a partir da composição nutricional
+| Espaço | Hopkins | Silhouette (k=4) | Davies–Bouldin | PC1+PC2 |
+|---|---|---|---|---|
+| TOP30 (versão anterior) | 0,973* | 0,178 | 1,87 | 17,7% |
+| **4 selecionadas** | 0,910 | 0,253 | 1,24 | **66,8%** |
 
-### K-Means (4 clusters identificados)
+\* inflado por vetores binários idênticos.
 
-| Cluster | Perfil | Calorias médias | Tags dominantes |
+**PCA:** Kaiser → 2 componentes (66,8%). PC1 = eixo salgado/proteico × doce/carboidrato; PC2 = densidade energética.
+
+**K-Means:** k escolhido por votação (cotovelo, silhouette, Davies–Bouldin, Calinski–Harabasz) entre os k
+estáveis no bootstrap → **k = 7** (silhouette = 0,25; estabilidade ARI = 0,93).
+
+| Perfil | kcal | Energia G / P / C | Tags características |
 |---|---|---|---|
-| 0 | Pratos Leves e Saladas | ~180 kcal | salad, vegetarian, no-cook |
-| 1 | Pratos Principais e Assados | ~480 kcal | bake, garlic, dinner |
-| 2 | Sobremesas e Confeitaria | ~580 kcal | dessert, cake, cookies |
-| 3 | Bebidas e Coquetéis | ~120 kcal | drink, alcoholic, fruit |
+| Molhos e petiscos leves | 70 | 30 / 16 / 53% | no-cook, sauce, condiment |
+| Bebidas e coquetéis | 233 | 7 / 3 / 90% | gin, cocktail, alcoholic |
+| Saladas e entradas | 237 | 71 / 10 / 19% | salad, appetizer, leafy green |
+| Sobremesas ricas | 398 | 60 / 6 / 34% | chocolate, almond, dessert |
+| Massas, pães e acompanhamentos | 411 | 34 / 11 / 55% | pasta, cake, bake, side |
+| Proteína magra (peixes/aves) | 434 | 40 / 40 / 20% | turkey, fish, shrimp |
+| Pratos principais fartos | 875 | 60 / 21 / 19% | beef, chicken, pork, roast |
 
-### Sistema de substituição dietética
+**Outros métodos:** Hierárquico Ward (escolhido entre 4 linkages; ARI = 0,49 com K-Means), GMM (BIC → 10
+componentes; 18,7% das receitas híbridas) e DBSCAN (97% em um núcleo denso + 2,2% de atípicas). Todos indicam que
+os perfis formam um **contínuo**: os clusters são uma segmentação útil, não grupos isolados.
 
-A função `sugerir_substitutos(receita_titulo, n=5)` localiza o cluster da receita e retorna:
-- **Alternativas diet:** receitas do mesmo cluster com menor teor calórico
-- **Alternativas premium:** receitas do mesmo cluster com maior nota
+**Aplicação:** `sugerir_substitutos("Chocolate Cake")` retorna receitas do mesmo perfil, com ≥ 20% menos calorias,
+ordenadas por similaridade de cosseno entre as tags.
+
+---
+
+## 6. Ética e limitações
+
+- Dataset público sem dados pessoais. Uma aplicação real com histórico de usuários trataria **dados sensíveis de saúde**
+  (LGPD, art. 11): exigiria base legal específica, consentimento e minimização.
+- Categorias e rating refletem o público do Epicurious (viés cultural); ranquear pelo rating criaria *feedback loops* de exposição.
+- Carboidratos são estimados por diferença; o número de avaliações não está disponível; as substituições não
+  substituem orientação nutricional.
 
 ---
 
 ## 7. Como executar
 
-Requer Python 3.10 ou superior.
+Requer Python 3.10+ e scikit-learn ≥ 1.8.
 
 ```bash
-# Clone o repositório
-git clone https://github.com/<seu-usuario>/ml-trabalho-final.git
-cd ml-trabalho-final
-
-# Crie e ative o ambiente virtual
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 # source .venv/bin/activate     # Linux/macOS
-
-# Instale as dependências
 pip install -r requirements.txt
-
-# Abra o notebook
 jupyter lab trabalho_final.ipynb
 ```
 
-### Dataset
+O notebook procura `data/epi_r.csv` e `data/full_format_recipes.json`; se não existirem, baixa via `kagglehub`
+(credenciais em `~/.kaggle/kaggle.json`) ou podem ser baixados manualmente do
+[Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes).
 
-O notebook busca automaticamente o dataset em `data/epi_r.csv`.
-Se o arquivo não existir, ele é baixado via `kagglehub`:
-
-```python
-import kagglehub
-path = kagglehub.dataset_download("hugodarwood/epirecipes")
-```
-
-Para isso, configure suas credenciais do Kaggle em `~/.kaggle/kaggle.json`
-([instruções](https://github.com/Kaggle/kaggle-api#api-credentials)).
-
-Alternativamente, baixe manualmente o arquivo `epi_r.csv` do
-[dataset no Kaggle](https://www.kaggle.com/datasets/hugodarwood/epirecipes)
-e coloque em `data/epi_r.csv`.
-
-### Tempo de execução estimado
-
-| Bloco | Estimativa |
-|---|---|
-| 0 — Setup e limpeza | ~1 min |
-| 1 — Regressão (10 modelos) | ~3–5 min |
-| 2 — Classificação (8 modelos) | ~10–20 min (SVM + RF são os mais lentos) |
-| 3 — Clustering | ~3–5 min |
-| **Total** | **~20–30 min** |
+Execução completa sem interface: `jupyter nbconvert --to notebook --execute --inplace trabalho_final.ipynb` (~20 min).
 
 ---
 
@@ -272,46 +209,29 @@ e coloque em `data/epi_r.csv`.
 
 ```
 ml-trabalho-final/
-├── trabalho_final.ipynb    # Notebook principal — análise completa
-├── requirements.txt        # Dependências Python
-├── README.md               # Este documento
-├── data/
-│   └── epi_r.csv           # Dataset (não versionado — ver .gitignore)
-└── figuras/                # Gráficos gerados pelo notebook
-    ├── motivacao_modelos_flexiveis.png   # Linear vs Poly vs Splines vs LOESS
-    ├── comparacao_regressores.png        # R² adj. dos 10 regressores
-    ├── modelo_final_regressao.png        # Diagnóstico do Gradient Boosting
-    ├── comparacao_classificadores.png    # Accuracy e F1 dos 8 classificadores
-    ├── matriz_confusao.png               # Confusion matrix do melhor classificador
-    ├── pca_visualizacao.png              # Scree plot + projeções 2D com KDE
-    ├── kmeans_clusters.png               # 4 clusters no espaço PCA
-    ├── dendrograma.png                   # Dendrograma hierárquico (Ward)
-    └── gmm_bic.png                       # BIC do GMM vs. número de componentes
+├── trabalho_final.ipynb                    # Notebook principal (executado, com saídas)
+├── apresentacao_trabalho_final.pptx       # Apresentação (10 slides, com notas do apresentador)
+├── requirements.txt
+├── README.md
+├── data/                                   # epi_r.csv + full_format_recipes.json (não versionados)
+└── figuras/
+    ├── motivacao_modelos_flexiveis.png     # Bloco 1: linear × polinomial × spline × LOESS
+    ├── selecao_lasso_regressao.png         # Bloco 1: ranking do Lasso
+    ├── comparacao_regressores.png
+    ├── modelo_final_regressao.png
+    ├── rating_viabilidade.png              # Bloco 2: viés de exposição do rating
+    ├── classificacao_alvo.png              # Bloco 2: alvo e desbalanceamento
+    ├── selecao_variaveis_classificacao.png # Bloco 2: MI, L1, permutação, RFECV
+    ├── consenso_variaveis.png
+    ├── comparacao_classificadores.png
+    ├── matriz_confusao.png                 # matriz 6×6 + métricas por classe + ROC
+    ├── importancia_classificacao.png       # variáveis por classe
+    ├── rejeicao_cobertura.png              # cobertura × acurácia
+    ├── correlacao_candidatas_cluster.png   # Bloco 3
+    ├── pca_visualizacao.png                # scree + loadings + biplot
+    ├── kmeans_selecao_k.png
+    ├── kmeans_clusters.png                 # clusters + silhouette + centróides
+    ├── dendrograma.png
+    ├── gmm_bic.png
+    └── dbscan.png
 ```
-
----
-
-## 9. Relação com a atividade anterior
-
-Este trabalho **complementa** a [atividade de regressão de calorias](https://github.com/LucasBuccini/ml-atividade):
-
-| Dimensão | Atividade | Trabalho Final |
-|---|---|---|
-| Problema | Regressão (`calories`) | Regressão + Classificação + Clustering |
-| Modelos | 7 regressores | 18 técnicas (regressão + classificação + não-supervisionado) |
-| Target | `calories` | `calories` + `rating_class` |
-| Foco | Um modelo bem feito e interpretado | Comparação ampla de técnicas e descoberta de padrões |
-| Resultado regressão | R² adj. = 0,897 (GB, 30 vars) | Replicado e estendido com mais modelos |
-| Resultado classificação | — | ~35–45% acc. (limitação estrutural do problema) |
-| Resultado não-supervisionado | — | 4 clusters + sistema de substituição de dieta |
-
-### Por que o rating é difícil de prever?
-
-A atividade anterior já havia identificado:
-
-> *"`rating` não tem relação com nada. A nota depende de gosto pessoal, que os dados não capturam."*
-
-Este trabalho confirma empiricamente: mesmo os melhores classificadores (Random Forest,
-Gradient Boosting com 335 features) ficam próximos do baseline de 33%. O resultado negativo
-tem valor científico — demonstra que prever satisfação gastronômica requer dados qualitativos
-(texto das avaliações, fotos, contexto cultural) que não estão neste dataset.
